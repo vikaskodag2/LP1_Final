@@ -1,0 +1,66 @@
+check hadoop version :
+hadoop version.
+
+start hadoop
+
+create input_data folder and input.txt
+
+create new folder to hold java class :
+	create java_classes folder
+
+export hadoop classpath :
+todo :->
+export HADOOP_HOME="/usr/local/Cellar/hadoop" # Replace with your own path
+export HADOOP_CLASSPATH=$(find $HADOOP_HOME -name '*.jar' | xargs echo | tr ' ' ':')
+
+	export HADOOP_CLASSPATH=$(hadoop classpath)
+
+check : 	echo $HADOOP_CLASSPATH
+
+create dir on hdfs :
+hadoop fs -mkdir /WordCount
+hadoop fs -mkdir -p /WordCount
+
+hadoop fs -mkdir /WordCount/Input
+
+check on :		localhost:50070
+
+putting input file to hdfs dir
+	hadoop fs -put 'home/Folder/Input_data/input.txt' /WordCount/Input
+
+change current directory to word count folder dir
+cd /Workspace/WordCount
+
+compiling the java code :
+	javac -classpath ${HADOOP_CLASSPATH} -d '/home/java_classes' '/home/WordCount/WordCount.java' 
+
+making jar :
+	jar -cvf count.jar -C java_classes/ .
+
+now run jar file on haddop :
+	hadoop jar '/home/Workspace/WordCount/count.jar' WordCount /WordCount/Input /WordCount/Output 
+
+now see output
+	hadoop dfs -cat /WordCount/Output/*	
+
+
+
+
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Login as hadoop user
+[7:38 PM, 10/26/2018] Shubham Talole Pict: In Eclipse create a java project
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Create a class without any package name
+[7:38 PM, 10/26/2018] Shubham Talole Pict: So that it's package would be default
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Add the hadoop jars
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Write code
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Compile/run it
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Right click on project name (package explorer on the lhs)
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Click on export
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Select java -> jar
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Export as a jar
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Tick the .classpath & .project check boxes
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Give the path - ie the directory where you want to store it
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Once the jar is exported
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Open terminal
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Cd into the folder where the jar file was exported
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Create an input.txt file in the same folder
+[7:38 PM, 10/26/2018] Shubham Talole Pict: Then run the hadoop commands

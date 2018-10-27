@@ -1,0 +1,6 @@
+tar -xzf mpich-3.2.1.tar.gz 
+cd mpich-3.2.1/
+./configure --disable-fortran
+make
+make install
+mpicxx --version
